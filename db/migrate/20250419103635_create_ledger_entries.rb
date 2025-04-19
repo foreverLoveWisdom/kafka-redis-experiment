@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLedgerEntries < ActiveRecord::Migration[8.0]
   def change
     create_table :ledger_entries do |t|

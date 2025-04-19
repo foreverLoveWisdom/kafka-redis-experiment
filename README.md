@@ -1,24 +1,11 @@
-# README
+🧪 EventSyncLab – Hands-on experiment to explore real-world differences between Sidekiq and Kafka in a Rails environment.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a learning sandbox, not production code. Design focuses on concept clarity, not code quality.
 
-Things you may want to cover:
+Simulates:
 
-* Ruby version
+    TransferMoneyJob via Sidekiq
 
-* System dependencies
+    Event fan-out via Kafka to LedgerService, FraudService, NotificationService
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+⚠️ Code intentionally kept simple for rapid experimentation and architecture insight.

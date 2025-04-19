@@ -11,12 +11,12 @@ class TransferMoneyJob < ApplicationJob
 
     Rails.logger.info "💸 Transferring #{transfer.amount} from #{transfer.from} to #{transfer.to}"
 
-    KafkaProducer.publish("money_transferred", {
-      from: transfer.from,
-      to: transfer.to,
-      amount: transfer.amount,
-      at: Time.now.to_s
-    })
+    KafkaProducer.publish('money_transferred', {
+                            from: transfer.from,
+                            to: transfer.to,
+                            amount: transfer.amount,
+                            at: Time.now.to_s
+                          })
 
     Rails.logger.info "📤 [Kafka] Published money_transferred for transfer_id=#{transfer.id}"
   end

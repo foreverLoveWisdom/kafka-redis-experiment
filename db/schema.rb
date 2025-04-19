@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,27 +12,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_19_104410) do
-  create_table "ledger_entries", force: :cascade do |t|
-    t.string "from"
-    t.string "to"
-    t.integer "amount"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+ActiveRecord::Schema[8.0].define(version: 20_250_419_104_410) do
+  create_table 'ledger_entries', force: :cascade do |t|
+    t.string 'from'
+    t.string 'to'
+    t.integer 'amount'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
-  create_table "notifications", force: :cascade do |t|
-    t.string "recipient"
-    t.string "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'notifications', force: :cascade do |t|
+    t.string 'recipient'
+    t.string 'content'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
-  create_table "transfers", force: :cascade do |t|
-    t.string "from"
-    t.string "to"
-    t.integer "amount"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'transfers', force: :cascade do |t|
+    t.string 'from'
+    t.string 'to'
+    t.integer 'amount'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 end

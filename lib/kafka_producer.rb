@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 # lib/kafka_producer.rb
 module KafkaProducer
   # You can memoize the producer instance
   def self.producer
-        @producer ||= WaterDrop::Producer.new do |config|
-          config.deliver = true
-          config.kafka = {
-            'bootstrap.servers': "localhost:9092",
-            'request.required.acks': 1
-          }
+    @producer ||= WaterDrop::Producer.new do |config|
+      config.deliver = true
+      config.kafka = {
+        'bootstrap.servers': 'localhost:9092',
+        'request.required.acks': 1
+      }
     end
   end
 
