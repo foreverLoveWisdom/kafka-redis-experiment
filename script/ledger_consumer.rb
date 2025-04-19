@@ -14,8 +14,8 @@ puts '📚 LedgerService started...'
 consumer.each_message do |msg|
   data = JSON.parse(msg.value)
   LedgerEntry.create!(
-    from: data['from'],
-    to: data['to'],
+    bank_account_from_id: data['from'],
+    bank_account_to_id: data['to'],
     amount: data['amount']
   )
   puts "✅ Ledger updated: #{data['from']} → #{data['to']} | $#{data['amount']}"
