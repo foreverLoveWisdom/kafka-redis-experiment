@@ -5,17 +5,15 @@ class TransferMoneyJob < ApplicationJob
   queue_as :default
 
   def perform(transfer_id)
-    Rails.logger.info "🔁 [TransferMoneyJob] Running for transfer_id=#{transfer_id}"
-
     transfer = Transfer.find(transfer_id)
 
-    Rails.logger.info "💸 Transferring #{transfer.amount} from #{transfer.from} to #{transfer.to}"
+    puts "💸 Transferring $#{transfer.amount} from #{transfer.from} to #{transfer.to}"
 
-    KafkaProducer.publish('money_transferred', { from: transfer.from,
-                                                 to: transfer.to,
-                                                 amount: transfer.amount,
-                                                 at: Time.now.to_s })
+    # Fan out using Sidekiq directly
+    UpdateLedgerJob.perform_later(transfer.from, transfer.to, transfer.amount)
+    CheckFraudJob.perform_later(transfer.from, transfer.to, transfer.amount)
+    SendNotificationJob.perform_later(transfer.to, transfer.from, transfer.amount)
 
-    Rails.logger.info "📤 [Kafka] Published money_transferred for transfer_id=#{transfer.id}"
+    puts '✅ Fan-out jobs enqueued'
   end
 end
