@@ -7,13 +7,10 @@ class TransferMoneyJob < ApplicationJob
   def perform(transfer_id)
     transfer = Transfer.find(transfer_id)
 
-    puts "💸 Transferring $#{transfer.amount} from #{transfer.from} to #{transfer.to}"
-
     # Fan out using Sidekiq directly
     UpdateLedgerJob.perform_later(transfer.from, transfer.to, transfer.amount)
     CheckFraudJob.perform_later(transfer.from, transfer.to, transfer.amount)
-    SendNotificationJob.perform_later(transfer.to, transfer.from, transfer.amount)
-
-    puts '✅ Fan-out jobs enqueued'
+    NotificationJob.perform_later(transfer.to, transfer.from, transfer.amount)
+    LoggingJob.perform_later("Transfer ##{transfer.id} completed at #{Time.current}")
   end
 end
