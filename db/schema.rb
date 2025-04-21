@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 20_250_419_130_609) do
+ActiveRecord::Schema[8.0].define(version: 20_250_421_034_828) do
   create_table 'bank_accounts', force: :cascade do |t|
     t.integer 'user_id', null: false
     t.integer 'balance'
@@ -32,10 +32,15 @@ ActiveRecord::Schema[8.0].define(version: 20_250_419_130_609) do
   end
 
   create_table 'notifications', force: :cascade do |t|
-    t.string 'recipient'
-    t.string 'content'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.integer 'user_id', null: false
+    t.string 'channel', null: false
+    t.string 'template_key', null: false
+    t.json 'payload', default: {}, null: false
+    t.string 'status', default: 'unread'
+    t.datetime 'delivered_at'
+    t.index ['user_id'], name: 'index_notifications_on_user_id'
   end
 
   create_table 'transfers', force: :cascade do |t|
@@ -55,4 +60,5 @@ ActiveRecord::Schema[8.0].define(version: 20_250_419_130_609) do
   add_foreign_key 'bank_accounts', 'users'
   add_foreign_key 'ledger_entries', 'bank_accounts', column: 'bank_account_from_id'
   add_foreign_key 'ledger_entries', 'bank_accounts', column: 'bank_account_to_id'
+  add_foreign_key 'notifications', 'users'
 end
