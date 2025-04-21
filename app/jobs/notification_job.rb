@@ -15,6 +15,7 @@ class NotificationJob < ApplicationJob
       PushSender.send(user.device_token, message)
 
     when 'in_app'
+      Rails.logger.info "\n\n\n📣 [Broadcast] Starting to broadcast to notifications_#{user.id}"
       Notification.create!(
         user: user,
         channel: channel,
@@ -23,12 +24,18 @@ class NotificationJob < ApplicationJob
         delivered_at: Time.current
       )
 
-      ActionCable.server.broadcast("notifications_#{user.id}", {
-                                     template_key: template_key,
-                                     payload: payload,
-                                     content: message
-                                   })
-
+      ActionCable.server.broadcast(
+        "notifications_#{user.id}",
+        {
+          identifier: { channel: 'NotificationsChannel', user_id: user.id }.to_json,
+          message: {
+            template_key: template_key,
+            payload: payload,
+            content: message
+          }
+        }
+      )
+      Rails.logger.info "\n\n\n✅ [Broadcast] Done broadcasting to notifications_#{user.id}"
     else
       raise 'Unknown channel'
     end
